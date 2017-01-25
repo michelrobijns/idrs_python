@@ -1,3 +1,4 @@
 *.pyc
 *.png
 tests/math.nist.gov
+*.bak
