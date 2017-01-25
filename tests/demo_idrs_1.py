@@ -22,8 +22,6 @@
 
 from __future__ import division, print_function, absolute_import
 
-import scipy.sparse.linalg as la
-import scipy.sparse as sp
 import scipy.io as io
 import numpy as np
 import sys
@@ -45,5 +43,3 @@ b = np.array(io.mmread(f)).ravel()
 f.close()
 print("MatrixMarket problem %s" % problem)
 print("Invert %d x %d matrix; nnz = %d" % (A.shape[0], A.shape[1], A.nnz))
-
-

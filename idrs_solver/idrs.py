@@ -28,7 +28,7 @@ from scipy.sparse.linalg.isolve.utils import make_system
 __all__ = ['idrs']
 
 
-def idrs(A, b, x0=None, tol=1e-5, s=4, maxiter=None, xtype=None,
+def idrs(A, b, x0=None, tol=1e-5, s=4, maxiter=None,
          M=None, callback=None):
     """
     Use Induced Dimension Reduction method [IDR(s)] to solve A x = b
@@ -51,8 +51,6 @@ def idrs(A, b, x0=None, tol=1e-5, s=4, maxiter=None, xtype=None,
     maxiter : integer, optional
         Maximum number of iterations.  Iteration will stop after maxiter
         steps even if the specified tolerance has not been achieved.
-    xtype : {'f','d','F','D'}
-        This parameter is deprecated -- avoid using it.
     M : {sparse matrix, dense matrix, LinearOperator}, optional
         Preconditioner for A.  The preconditioner should approximate the
         inverse of A.  Effective preconditioning dramatically improves the
@@ -62,7 +60,7 @@ def idrs(A, b, x0=None, tol=1e-5, s=4, maxiter=None, xtype=None,
         User-supplied function to call after each iteration.  It is called
         as callback(xk), where xk is the current solution vector.
 
-        .. versionadded:: 0.19.0
+        .. versionadded:: 0.1.0
 
     Returns
     -------
@@ -85,7 +83,7 @@ def idrs(A, b, x0=None, tol=1e-5, s=4, maxiter=None, xtype=None,
             http://ta.twi.tudelft.nl/nw/users/gijzen/idrs.m
 
     """
-    A, M, x, b, postprocess = make_system(A, M, x0, b, xtype)
+    A, M, x, b, postprocess = make_system(A, M, x0, b, xtype=None)
 
     n = len(b)
     if maxiter is None:
@@ -95,10 +93,10 @@ def idrs(A, b, x0=None, tol=1e-5, s=4, maxiter=None, xtype=None,
     psolve = M.matvec
     xtype = x.dtype
 
-    axpy, dot, scal = get_blas_funcs(['axpy', 'dot', 'scal'], dtype=xtype)
+    axpy, dot = get_blas_funcs(['axpy', 'dot'], dtype=xtype)
 
     np.random.seed(0)
-    P = np.random.rand(s, n)
+    P = np.random.randn(s, n)
     bnrm = np.linalg.norm(b)
     info = 0
 
@@ -151,7 +149,7 @@ def idrs(A, b, x0=None, tol=1e-5, s=4, maxiter=None, xtype=None,
                 # Breakdown
                 return postprocess(x), -1
 
-            # Make r orthogonal to q_i, i = 1..k
+            # Make r orthogonal to g_i, i = 1..k
             beta = f[k] / Ms[k, k]
             x = axpy(U[:, k], x, None, beta)
             r = axpy(G[:, k], r, None, -beta)
