@@ -60,8 +60,6 @@ def idrs(A, b, x0=None, tol=1e-5, s=4, maxiter=None,
         User-supplied function to call after each iteration.  It is called
         as callback(xk), where xk is the current solution vector.
 
-        .. versionadded:: 0.1.0
-
     Returns
     -------
     x : array or matrix
