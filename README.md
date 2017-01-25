@@ -5,7 +5,7 @@ solves the system of linear equation,
 This Python implementation is based on [2]. The interface of the idrs function is compatible
 with the Krylov methods implemented in Scipy.
 
-      idrs(A, b, x0=None, tol=1e-5, s=4, maxit=None, xtype=None, M=None, callback=None)
+      idrs(A, b, x0=None, tol=1e-5, s=4, maxit=None, M=None, callback=None)
 
     Parameters
     ----------
@@ -25,8 +25,6 @@ with the Krylov methods implemented in Scipy.
     maxiter : integer, optional
         Maximum number of iterations.  Iteration will stop after maxiter
         steps even if the specified tolerance has not been achieved.
-    xtype : {'f','d','F','D'}
-        This parameter is deprecated -- avoid using it.
     M : {sparse matrix, dense matrix, LinearOperator}, optional
         Preconditioner for A.  The preconditioner should approximate the
         inverse of A.  Effective preconditioning dramatically improves the
